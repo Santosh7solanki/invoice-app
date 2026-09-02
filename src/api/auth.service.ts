@@ -26,6 +26,19 @@ export interface LoginResponse {
   };
 }
 
+export interface SignupRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  companyName: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  industry: string;
+  currencySymbol: string;
+  logo: File | null;
+}
 const TOKEN_KEY = "invoiceapp_token";
 const USER_KEY = "invoiceapp_user";
 const COMPANY_KEY = "invoiceapp_company";
@@ -62,6 +75,45 @@ const login = async (
   return result;
 };
 
+
+const signup = async (
+  data: SignupRequest
+): Promise<LoginResponse> => {
+  const formData = new FormData();
+
+  formData.append("FirstName", data.firstName);
+  formData.append("LastName", data.lastName);
+  formData.append("Email", data.email);
+  formData.append("Password", data.password);
+  formData.append("CompanyName", data.companyName);
+  formData.append("Address", data.address);
+  formData.append("City", data.city);
+  formData.append("ZipCode", data.zipCode);
+  formData.append("Industry", data.industry);
+  formData.append("CurrencySymbol", data.currencySymbol);
+
+  if (data.logo) {
+    formData.append("logo", data.logo);
+  }
+
+  const response = await fetch(routes.AUTH.SIGNUP, {
+    method: "POST",
+    body: formData,
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      typeof result === "string"
+        ? result
+        : result?.message || "Unable to create account."
+    );
+  }
+
+  return result;
+};
+
 const logout = () => {
   removeSecureItem(TOKEN_KEY);
   removeSecureItem(USER_KEY);
@@ -82,6 +134,7 @@ const getCompany = () => {
 
 const authService = {
   login,
+  signup,
   logout,
   getToken,
   getUser,

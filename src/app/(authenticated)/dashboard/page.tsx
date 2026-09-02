@@ -1,11 +1,362 @@
-import React from 'react'
+"use client";
 
-const dashboardPage = () => {
+import { useAuth } from "@/context/AuthContext";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
+import {
+  Inventory2Outlined,
+  ReceiptLongOutlined,
+  ArrowForward,
+} from "@mui/icons-material";
+import { useRouter } from "next/navigation";
+
+export default function DashboardPage() {
+  const router = useRouter();
+  const { user, company, token } = useAuth();
+ console.log("AUTH TOKEN:", token);
   return (
-    <div>
-      Dashboard Page
-    </div>
-  )
-}
+    <Box
+      sx={{
+        minHeight: "100vh",
+        backgroundColor: "#f5f5f5",
+      }}
+    >
+      {/* Header */}
+      <Box
+        sx={{
+          height: 56,
+          backgroundColor: "#fff",
+          borderBottom: "1px solid #e5e5e5",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          px: { xs: 2, md: 4 },
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: 14,
+            fontWeight: 600,
+            color: "#222",
+          }}
+        >
+          ▪ InvoiceApp
+        </Typography>
 
-export default dashboardPage
+        <Box
+          sx={{
+            textAlign: "right",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 11,
+              fontWeight: 600,
+              color: "#333",
+            }}
+          >
+            {user?.firstName} {user?.lastName}
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: 9,
+              color: "#777",
+            }}
+          >
+            {company?.companyName}
+          </Typography>
+        </Box>
+      </Box>
+
+      {/* Main */}
+      <Box
+        sx={{
+          maxWidth: 1100,
+          mx: "auto",
+          px: { xs: 2, md: 4 },
+          py: { xs: 3, md: 5 },
+        }}
+      >
+        {/* Welcome */}
+        <Box sx={{ mb: 4 }}>
+          <Typography
+            sx={{
+              fontSize: { xs: 22, md: 26 },
+              fontWeight: 600,
+              color: "#222",
+              mb: 0.5,
+            }}
+          >
+            Welcome back, {user?.firstName}
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: 12,
+              color: "#777",
+            }}
+          >
+            Manage your items and invoices from one place.
+          </Typography>
+        </Box>
+
+        {/* Quick Actions */}
+        <Typography
+          sx={{
+            fontSize: 13,
+            fontWeight: 600,
+            color: "#333",
+            mb: 1.5,
+          }}
+        >
+          Quick Actions
+        </Typography>
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "1fr 1fr",
+            },
+            gap: 2,
+          }}
+        >
+          {/* Items */}
+          <Card
+            sx={{
+              border: "1px solid #e2e2e2",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+              borderRadius: 2,
+            }}
+          >
+            <CardContent sx={{ p: 2.5 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box>
+                  <Inventory2Outlined
+                    sx={{
+                      fontSize: 26,
+                      color: "#555",
+                      mb: 1,
+                    }}
+                  />
+
+                  <Typography
+                    sx={{
+                      fontSize: 16,
+                      fontWeight: 600,
+                      color: "#222",
+                    }}
+                  >
+                    Items
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      fontSize: 11,
+                      color: "#777",
+                      mt: 0.5,
+                      maxWidth: 320,
+                    }}
+                  >
+                    Manage your products and services, pricing,
+                    discounts and pictures.
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Button
+                variant="outlined"
+                endIcon={<ArrowForward sx={{ fontSize: 15 }} />}
+                onClick={() => router.push("/items")}
+                sx={{
+                  mt: 2,
+                  height: 32,
+                  fontSize: 10,
+                  textTransform: "none",
+                }}
+              >
+                Manage Items
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Invoices */}
+          <Card
+            sx={{
+              border: "1px solid #e2e2e2",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+              borderRadius: 2,
+            }}
+          >
+            <CardContent sx={{ p: 2.5 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box>
+                  <ReceiptLongOutlined
+                    sx={{
+                      fontSize: 26,
+                      color: "#555",
+                      mb: 1,
+                    }}
+                  />
+
+                  <Typography
+                    sx={{
+                      fontSize: 16,
+                      fontWeight: 600,
+                      color: "#222",
+                    }}
+                  >
+                    Invoices
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      fontSize: 11,
+                      color: "#777",
+                      mt: 0.5,
+                      maxWidth: 320,
+                    }}
+                  >
+                    Create, manage, search and print your
+                    company invoices.
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Button
+                variant="outlined"
+                endIcon={<ArrowForward sx={{ fontSize: 15 }} />}
+                onClick={() => router.push("/invoices")}
+                sx={{
+                  mt: 2,
+                  height: 32,
+                  fontSize: 10,
+                  textTransform: "none",
+                }}
+              >
+                View Invoices
+              </Button>
+            </CardContent>
+          </Card>
+        </Box>
+
+        {/* Company Info */}
+        <Card
+          sx={{
+            mt: 3,
+            border: "1px solid #e2e2e2",
+            boxShadow: "none",
+            borderRadius: 2,
+          }}
+        >
+          <CardContent sx={{ p: 2.5 }}>
+            <Typography
+              sx={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: "#333",
+                mb: 1.5,
+              }}
+            >
+              Company Information
+            </Typography>
+
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "1fr 1fr",
+                  md: "1fr 1fr 1fr",
+                },
+                gap: 2,
+              }}
+            >
+              <Box>
+                <Typography
+                  sx={{
+                    fontSize: 9,
+                    color: "#999",
+                  }}
+                >
+                  Company
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontSize: 11,
+                    color: "#333",
+                    mt: 0.3,
+                  }}
+                >
+                  {company?.companyName || "-"}
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  sx={{
+                    fontSize: 9,
+                    color: "#999",
+                  }}
+                >
+                  Currency
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontSize: 11,
+                    color: "#333",
+                    mt: 0.3,
+                  }}
+                >
+                  {company?.currencySymbol || "-"}
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  sx={{
+                    fontSize: 9,
+                    color: "#999",
+                  }}
+                >
+                  User
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontSize: 11,
+                    color: "#333",
+                    mt: 0.3,
+                  }}
+                >
+                  {user?.email || "-"}
+                </Typography>
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+    </Box>
+  );
+}

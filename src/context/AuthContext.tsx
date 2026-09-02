@@ -10,6 +10,7 @@ import {
 
 import authService, {
   LoginRequest,
+  SignupRequest,
   LoginResponse,
 } from "@/api/auth.service";
 
@@ -20,6 +21,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (data: LoginRequest) => Promise<void>;
+  signup: (data: SignupRequest) => Promise<void>;
   logout: () => void;
 }
 
@@ -32,6 +34,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     null
   );
   const [isLoading, setIsLoading] = useState(true);
+
+  const setAuthData = (result: LoginResponse) => {
+    setToken(result.token);
+    setUser(result.user);
+    setCompany(result.company);
+  };
 
   useEffect(() => {
     const loadAuthData = () => {
@@ -48,14 +56,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loadAuthData();
   }, []);
 
+  // Login
   const login = async (data: LoginRequest) => {
     const result = await authService.login(data);
 
-    setToken(result.token);
-    setUser(result.user);
-    setCompany(result.company);
+    setAuthData(result);
   };
 
+  // Signup
+  const signup = async (data: SignupRequest) => {
+    const result = await authService.signup(data);
+
+    setAuthData(result);
+  };
+
+  // Logout
   const logout = () => {
     authService.logout();
 
@@ -73,6 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: Boolean(token),
         isLoading,
         login,
+        signup,
         logout,
       }}
     >
