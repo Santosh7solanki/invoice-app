@@ -18,7 +18,8 @@
     "crypto-js": "^4.2.0",
     "next": "16.3.3",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
