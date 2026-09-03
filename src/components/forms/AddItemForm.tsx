@@ -138,14 +138,10 @@ export default function AddItemForm({
     setFormError("");
 
     let hasError = false;
-
-    // Item Name
     if (!itemName.trim()) {
       setItemNameError("Item name is required");
       hasError = true;
     }
-
-    // Sale Rate
     const parsedSalesRate = Number(salesRate);
 
     if (!salesRate.trim()) {
@@ -158,8 +154,6 @@ export default function AddItemForm({
       setSalesRateError("Sale rate must be greater than 0");
       hasError = true;
     }
-
-    // Discount
     const parsedDiscount = discountPct.trim()
       ? Number(discountPct)
       : 0;
@@ -214,8 +208,6 @@ export default function AddItemForm({
           );
         }
       }
-
-      // Upload image only when user selected a new image
       if (selectedFile) {
         await itemService.uploadItemImage(
           savedItemID,
@@ -308,7 +300,7 @@ export default function AddItemForm({
         component="form"
         onSubmit={handleSubmit}
       >
-        {/* Header */}
+
         <Box
           sx={{
             height: 40,
@@ -342,7 +334,6 @@ export default function AddItemForm({
           </IconButton>
         </Box>
 
-        {/* Content */}
         <Box
           sx={{
             px: 1.5,
@@ -362,7 +353,6 @@ export default function AddItemForm({
             </Alert>
           )}
 
-          {/* Item Picture */}
           <Typography
             sx={{
               fontSize: 9,
@@ -491,7 +481,6 @@ export default function AddItemForm({
             </Typography>
           )}
 
-          {/* Item Name */}
           <Typography
             sx={{
               fontSize: 9,
@@ -529,7 +518,6 @@ export default function AddItemForm({
             }}
           />
 
-          {/* Description */}
           <Typography
             sx={{
               fontSize: 9,
@@ -575,7 +563,6 @@ export default function AddItemForm({
             {description.length}/500
           </Typography>
 
-          {/* Sale Rate + Discount */}
           <Box
             sx={{
               display: "grid",
@@ -676,7 +663,6 @@ export default function AddItemForm({
           </Box>
         </Box>
 
-        {/* Footer */}
         <Box
           sx={{
             height: 48,

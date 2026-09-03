@@ -16,13 +16,6 @@ export interface Item {
   updatedOn: string | null;
 }
 
-export interface CreateItemRequest {
-  itemName: string;
-  description: string | null;
-  salesRate: number;
-  discountPct: number;
-}
-
 export interface UpdateItemRequest {
   updatedOn: string | null;
   itemID: number;
@@ -56,8 +49,6 @@ const getAuthHeaders = () => {
     Authorization: `Bearer ${token}`,
   };
 };
-
-// Get Items
 const getItems = async (): Promise<Item[]> => {
   const response = await fetch(routes.ITEM.GET_LIST, {
     method: "GET",
@@ -76,11 +67,6 @@ const getItems = async (): Promise<Item[]> => {
 
   return result;
 };
-
-
-
-
-// Update Item
 const updateItem = async (
   data: UpdateItemRequest
 ): Promise<ItemMutationResponse> => {
@@ -102,9 +88,6 @@ const updateItem = async (
 
   return result;
 };
-
-
-// Delete Item
 const deleteItem = async (data: ItemRequest) => {
   const itemID = data?.itemID;
 
@@ -130,7 +113,6 @@ const deleteItem = async (data: ItemRequest) => {
 
   return true;
 };
-
 
 const uploadItemImage = async (
   itemID: number,
@@ -162,28 +144,6 @@ const uploadItemImage = async (
   return true;
 };
 
-const getItemImageUrl = async (
-  itemID: number
-): Promise<string> => {
-  const token = getSecureItem<string>(TOKEN_KEY);
-
-  const response = await fetch(
-    routes.ITEM.PICTURE(itemID),
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to get item image.");
-  }
-
-  return response.text();
-};
-
 const getItemThumbnailUrl = async (
   itemID: number
 ): Promise<string> => {
@@ -205,8 +165,6 @@ const getItemThumbnailUrl = async (
 
   return response.text();
 };
-
-// Create Item
 const addItem = async (
   data: ItemRequest
 ) => {
@@ -235,7 +193,6 @@ const itemService = {
   deleteItem,
   addItem,
   uploadItemImage,
-  getItemImageUrl,
   getItemThumbnailUrl,
 };
 

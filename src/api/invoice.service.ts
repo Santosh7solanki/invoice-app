@@ -62,8 +62,6 @@ const getAuthHeaders = (token: string) => ({
   Authorization: `Bearer ${token}`,
 });
 
-// Get Invoice List
-
 const getInvoices = async (
   token: string,
   params?: {
@@ -111,8 +109,6 @@ const getInvoices = async (
   return result;
 };
 
-// Create Invoice
-
 const createInvoice = async (
   token: string,
   data: CreateInvoiceRequest
@@ -135,8 +131,6 @@ const createInvoice = async (
 
   return result;
 };
-
-// Update Invoice
 
 const updateInvoice = async (
   token: string,
@@ -174,8 +168,6 @@ const updateInvoice = async (
   return result as InvoiceMutationResponse;
 };
 
-// Delete Invoice
-
 const deleteInvoice = async (
   token: string,
   invoiceID: number
@@ -195,7 +187,6 @@ const deleteInvoice = async (
 
   return true;
 };
-
 
 const getInvoiceById = async (
   token: string,
@@ -221,7 +212,6 @@ const getInvoiceById = async (
 
   return result;
 };
-
 
 const getInvoiceMetrics = async (
   token: string,

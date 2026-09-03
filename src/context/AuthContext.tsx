@@ -55,22 +55,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     loadAuthData();
   }, []);
-
-  // Login
   const login = async (data: LoginRequest) => {
     const result = await authService.login(data);
 
     setAuthData(result);
   };
-
-  // Signup
   const signup = async (data: SignupRequest) => {
     const result = await authService.signup(data);
 
     setAuthData(result);
   };
-
-  // Logout
   const logout = () => {
     authService.logout();
 

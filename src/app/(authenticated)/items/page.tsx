@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState,useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -29,7 +29,6 @@ import {
 import { useRouter } from "next/navigation";
 import {
   Add,
-  ArrowBack,
   DeleteOutlined,
   EditOutlined,
   FileDownloadOutlined,
@@ -110,7 +109,6 @@ const fetchItems = async () => {
             imageMap[item.itemID] = thumbnail;
           }
         } catch {
-          // No image available
         }
       })
     );
@@ -123,16 +121,9 @@ const fetchItems = async () => {
   }
 };
 
-
-
 useEffect(() => {
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   fetchItems();
 }, []);
-
-
-
-
 
   const filteredItems = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
@@ -287,8 +278,7 @@ useEffect(() => {
     },
   }}
 >
-     
-    {/* Header */}
+
 <Box
   sx={{
     display: "flex",
@@ -305,7 +295,7 @@ useEffect(() => {
     },
   }}
 >
-  {/* Page Title */}
+
   <Box>
     <Typography
       variant="h5"
@@ -326,7 +316,6 @@ useEffect(() => {
     </Typography>
   </Box>
 
-  {/* Header Actions */}
   <Box
     sx={{
       display: "flex",
@@ -335,7 +324,7 @@ useEffect(() => {
       flexWrap: "wrap",
     }}
   >
-    {/* Back to Dashboard */}
+
     <Button
       variant="outlined"
       onClick={() => router.push("/dashboard")}
@@ -347,7 +336,6 @@ useEffect(() => {
       Back to Dashboard
     </Button>
 
-    {/* Add New Item */}
     <Button
       variant="contained"
       startIcon={<Add />}
@@ -366,7 +354,6 @@ useEffect(() => {
   </Box>
 </Box>
 
-      {/* Action Bar */}
       <Paper
         elevation={0}
         sx={{
@@ -478,7 +465,6 @@ useEffect(() => {
         </Box>
       </Paper>
 
-      {/* Desktop Grid */}
       <Paper
         elevation={0}
         sx={{
@@ -758,7 +744,6 @@ useEffect(() => {
           </Table>
         </TableContainer>
 
-        {/* Mobile Cards */}
         <Box
           sx={{
             display: {
@@ -941,7 +926,7 @@ useEffect(() => {
           labelRowsPerPage="Rows per page"
         />
       </Paper>
-    
+
 <Dialog
   open={isDeleteOpen}
   onClose={() => {
@@ -1008,7 +993,6 @@ useEffect(() => {
     </Button>
   </DialogActions>
 </Dialog>
-
 
 <AddItemForm
   open={isAddItemOpen}

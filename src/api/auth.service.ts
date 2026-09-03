@@ -75,7 +75,6 @@ const login = async (
   return result;
 };
 
-
 const signup = async (
   data: SignupRequest
 ): Promise<LoginResponse> => {

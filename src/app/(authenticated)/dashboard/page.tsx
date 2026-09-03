@@ -30,15 +30,11 @@ export default function DashboardPage() {
     user,
     company,
     logout,
-    token,
   } = useAuth();
 
   const [isLogoutOpen, setIsLogoutOpen] =
     useState(false);
-
-  console.log("AUTH TOKEN:", token);
-
-  const capitalizeWords = (
+const capitalizeWords = (
     value?: string | null
   ) => {
     if (!value) return "";
@@ -63,7 +59,7 @@ export default function DashboardPage() {
         backgroundColor: "#f5f5f5",
       }}
     >
-      {/* Header */}
+
       <Box
         sx={{
           minHeight: 56,
@@ -77,7 +73,7 @@ export default function DashboardPage() {
           gap: 2,
         }}
       >
-        {/* Logo */}
+
        <Typography
         sx={{
           display: "flex",
@@ -97,7 +93,6 @@ export default function DashboardPage() {
         InvoiceApp
       </Typography>
 
-        {/* User Info + Logout */}
         <Box
           sx={{
             display: "flex",
@@ -159,7 +154,6 @@ export default function DashboardPage() {
         </Box>
       </Box>
 
-      {/* Main */}
       <Box
         sx={{
           maxWidth: 1100,
@@ -168,7 +162,7 @@ export default function DashboardPage() {
           py: { xs: 3, md: 5 },
         }}
       >
-        {/* Welcome */}
+
         <Box sx={{ mb: 4 }}>
           <Typography
             sx={{
@@ -196,7 +190,6 @@ export default function DashboardPage() {
           </Typography>
         </Box>
 
-        {/* Quick Actions */}
         <Typography
           sx={{
             fontSize: 13,
@@ -218,7 +211,7 @@ export default function DashboardPage() {
             gap: 2,
           }}
         >
-          {/* Items */}
+
           <Card
             sx={{
               border: "1px solid #e2e2e2",
@@ -281,7 +274,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Invoices */}
           <Card
             sx={{
               border: "1px solid #e2e2e2",
@@ -344,7 +336,6 @@ export default function DashboardPage() {
           </Card>
         </Box>
 
-        {/* Company Information */}
         <Card
           sx={{
             mt: 3,
@@ -376,7 +367,7 @@ export default function DashboardPage() {
                 gap: 2,
               }}
             >
-              {/* Company */}
+
               <Box>
                 <Typography
                   sx={{
@@ -400,7 +391,6 @@ export default function DashboardPage() {
                 </Typography>
               </Box>
 
-              {/* Currency */}
               <Box>
                 <Typography
                   sx={{
@@ -423,7 +413,6 @@ export default function DashboardPage() {
                 </Typography>
               </Box>
 
-              {/* User */}
               <Box>
                 <Typography
                   sx={{
@@ -449,7 +438,6 @@ export default function DashboardPage() {
         </Card>
       </Box>
 
-      {/* Logout Confirmation Dialog */}
       <Dialog
         open={isLogoutOpen}
         onClose={() =>

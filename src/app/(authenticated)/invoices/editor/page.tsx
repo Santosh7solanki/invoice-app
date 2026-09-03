@@ -68,8 +68,6 @@ export default function InvoiceEditorPage() {
 
   const [updatedOn, setUpdatedOn] = useState<string | null>(null);
   const [conflictOpen, setConflictOpen] = useState(false);
-
-  // Load invoice for edit
   useEffect(() => {
     if (!isEditMode || !invoiceID || !token) {
       return;
@@ -114,8 +112,6 @@ export default function InvoiceEditorPage() {
 
     loadInvoice();
   }, [token, invoiceID, isEditMode, isPrintMode]);
-
-  // Load items
   useEffect(() => {
     const loadItems = async () => {
       try {
@@ -340,7 +336,7 @@ export default function InvoiceEditorPage() {
         },
       }}
     >
-      {/* ================= HEADER ================= */}
+
       <Box
         sx={{
           display: "flex",
@@ -393,7 +389,6 @@ export default function InvoiceEditorPage() {
         </Box>
       </Box>
 
-      {/* ================= INVOICE DETAILS ================= */}
       <Paper
         elevation={0}
         sx={{
@@ -418,7 +413,7 @@ export default function InvoiceEditorPage() {
         </Typography>
 
         <Grid container spacing={2}>
-          {/* Invoice No */}
+
           <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
@@ -432,7 +427,6 @@ export default function InvoiceEditorPage() {
             />
           </Grid>
 
-          {/* Invoice Date */}
           <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
@@ -451,7 +445,6 @@ export default function InvoiceEditorPage() {
             />
           </Grid>
 
-          {/* Customer */}
           <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
@@ -466,7 +459,6 @@ export default function InvoiceEditorPage() {
             />
           </Grid>
 
-          {/* City */}
           <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
@@ -480,7 +472,6 @@ export default function InvoiceEditorPage() {
             />
           </Grid>
 
-          {/* Address */}
           <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
@@ -496,7 +487,6 @@ export default function InvoiceEditorPage() {
             />
           </Grid>
 
-          {/* Notes */}
           <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
@@ -514,7 +504,6 @@ export default function InvoiceEditorPage() {
         </Grid>
       </Paper>
 
-      {/* ================= LINE ITEMS ================= */}
       <Paper
         elevation={0}
         sx={{
@@ -558,7 +547,6 @@ export default function InvoiceEditorPage() {
           </Button>
         </Box>
 
-        {/* Table Header */}
         <Box
           sx={{
             display: {
@@ -635,7 +623,7 @@ export default function InvoiceEditorPage() {
               },
             }}
           >
-            {/* S.No */}
+
             <Box
               sx={{
                 display: {
@@ -649,7 +637,6 @@ export default function InvoiceEditorPage() {
               </Typography>
             </Box>
 
-            {/* Item */}
             <TextField
               fullWidth
               size="small"
@@ -710,7 +697,6 @@ export default function InvoiceEditorPage() {
               ))}
             </TextField>
 
-            {/* Description */}
             <TextField
               fullWidth
               size="small"
@@ -731,7 +717,6 @@ export default function InvoiceEditorPage() {
               }}
             />
 
-            {/* Qty */}
             <TextField
               fullWidth
               size="small"
@@ -753,7 +738,6 @@ export default function InvoiceEditorPage() {
               }}
             />
 
-            {/* Rate */}
             <TextField
               fullWidth
               size="small"
@@ -775,7 +759,6 @@ export default function InvoiceEditorPage() {
               }}
             />
 
-            {/* Discount */}
             <TextField
               fullWidth
               size="small"
@@ -797,7 +780,6 @@ export default function InvoiceEditorPage() {
               }}
             />
 
-            {/* Amount */}
             <Typography
               sx={{
                 fontWeight: 600,
@@ -811,7 +793,6 @@ export default function InvoiceEditorPage() {
               ₹ {calculateAmount(line).toFixed(2)}
             </Typography>
 
-            {/* Actions */}
             <Box
               sx={{
                 display: "flex",
@@ -847,7 +828,6 @@ export default function InvoiceEditorPage() {
           </Box>
         ))}
 
-        {/* Sub Total */}
         <Box
           sx={{
             display: "flex",
@@ -899,7 +879,6 @@ export default function InvoiceEditorPage() {
         </Box>
       </Paper>
 
-      {/* ================= INVOICE TOTALS ================= */}
       <Paper
         elevation={0}
         sx={{
@@ -1025,7 +1004,6 @@ export default function InvoiceEditorPage() {
         </Grid>
       </Paper>
 
-      {/* ================= CONFLICT DIALOG ================= */}
       <Dialog
         open={conflictOpen}
         onClose={() => setConflictOpen(false)}

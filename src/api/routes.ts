@@ -18,7 +18,6 @@ ITEM: {
     `${API_BASE_URL}/Item/PictureThumbnail/${id}`,
 },
 
-
 INVOICE: {
   GET_LIST: `${API_BASE_URL}/Invoice/GetList`,
   GET_BY_ID: (id: number) => `${API_BASE_URL}/Invoice/${id}`,
@@ -28,7 +27,6 @@ INVOICE: {
   GET_METRICS: `${API_BASE_URL}/Invoice/GetMetrices`,
   GET_TREND_12M: `${API_BASE_URL}/Invoice/GetTrend12M`,
   TOP_ITEMS: `${API_BASE_URL}/Invoice/TopItems`,
-  PRINT_VIEW: `${API_BASE_URL}/Invoice/PrintView`,
 },
 };
 

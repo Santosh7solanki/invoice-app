@@ -15,14 +15,12 @@ import {
 } from "@mui/material";
 import {
   DeleteOutlined,
+  DescriptionOutlined,
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
 
 import { useAuth } from "@/context/AuthContext";
-import {
-  DescriptionOutlined
-} from "@mui/icons-material";
 interface SignupForm {
   firstName: string;
   lastName: string;
@@ -238,7 +236,7 @@ router.push("/dashboard");
         flexDirection: "column",
       }}
     >
-      {/* Header */}
+
       <Box
         sx={{
           height: 48,
@@ -269,7 +267,6 @@ router.push("/dashboard");
 </Typography>
       </Box>
 
-      {/* Content */}
       <Box
         sx={{
           flex: 1,
@@ -292,7 +289,7 @@ router.push("/dashboard");
             p: { xs: 2.5, sm: 3 },
           }}
         >
-          {/* Heading */}
+
           <Box
             sx={{
               textAlign: "center",
@@ -333,7 +330,6 @@ router.push("/dashboard");
             </Alert>
           )}
 
-          {/* Two Columns */}
           <Box
             sx={{
               display: "grid",
@@ -344,7 +340,7 @@ router.push("/dashboard");
               gap: { xs: 3, sm: 4 },
             }}
           >
-            {/* User Information */}
+
             <Box>
               <Typography
                 sx={{
@@ -357,7 +353,6 @@ router.push("/dashboard");
                 User Information
               </Typography>
 
-              {/* First Name */}
               <Box sx={{ mb: 1.5 }}>
                 <Typography sx={labelSx}>
                   First Name
@@ -380,7 +375,6 @@ router.push("/dashboard");
                 />
               </Box>
 
-              {/* Last Name */}
               <Box sx={{ mb: 1.5 }}>
                 <Typography sx={labelSx}>
                   Last Name
@@ -403,7 +397,6 @@ router.push("/dashboard");
                 />
               </Box>
 
-              {/* Email */}
               <Box sx={{ mb: 1.5 }}>
                 <Typography sx={labelSx}>
                   Email
@@ -427,7 +420,6 @@ router.push("/dashboard");
                 />
               </Box>
 
-              {/* Password */}
               <Box>
                 <Typography sx={labelSx}>
                   Password
@@ -476,7 +468,6 @@ router.push("/dashboard");
               </Box>
             </Box>
 
-            {/* Company Information */}
             <Box>
               <Typography
                 sx={{
@@ -489,7 +480,6 @@ router.push("/dashboard");
                 Company Information
               </Typography>
 
-              {/* Company Name */}
               <Box sx={{ mb: 1.5 }}>
                 <Typography sx={labelSx}>
                   Company Name
@@ -512,7 +502,6 @@ router.push("/dashboard");
                 />
               </Box>
 
-              {/* Logo */}
               <Box sx={{ mb: 1.5 }}>
                 <Typography sx={labelSx}>
                   Company Logo
@@ -613,7 +602,6 @@ router.push("/dashboard");
                 )}
               </Box>
 
-              {/* Address */}
               <Box sx={{ mb: 1.5 }}>
                 <Typography sx={labelSx}>
                   Address
@@ -636,7 +624,6 @@ router.push("/dashboard");
                 />
               </Box>
 
-              {/* City + Zip */}
               <Box
                 sx={{
                   display: "grid",
@@ -690,7 +677,6 @@ router.push("/dashboard");
                 </Box>
               </Box>
 
-              {/* Industry */}
               <Box sx={{ mb: 1.5 }}>
                 <Typography sx={labelSx}>
                   Industry
@@ -713,7 +699,6 @@ router.push("/dashboard");
                 />
               </Box>
 
-              {/* Currency */}
               <Box>
                 <Typography sx={labelSx}>
                   Currency Symbol
@@ -738,7 +723,6 @@ router.push("/dashboard");
             </Box>
           </Box>
 
-          {/* Submit */}
           <Box
             sx={{
               display: "flex",
@@ -774,7 +758,6 @@ router.push("/dashboard");
             </Button>
           </Box>
 
-          {/* Login Link */}
           <Box
             sx={{
               textAlign: "center",
@@ -806,7 +789,6 @@ router.push("/dashboard");
         </Box>
       </Box>
 
-      {/* Footer */}
       <Box
         sx={{
           height: 24,

@@ -14,9 +14,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  DescriptionOutlined
+  DescriptionOutlined,
+  Visibility,
+  VisibilityOff,
 } from "@mui/icons-material";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -32,14 +33,6 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
 const { login } = useAuth();
 const router = useRouter();
-
-
-const { user, company, token } = useAuth();
-
-// console.log("AUTH USER:", user);
-// console.log("AUTH COMPANY:", company);
-// console.log("AUTH TOKEN:", token);
-
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -97,7 +90,7 @@ router.push("/dashboard");
         flexDirection: "column",
       }}
     >
-      {/* Header */}
+
       <Box
         sx={{
           height: 48,
@@ -128,7 +121,6 @@ router.push("/dashboard");
 </Typography>
       </Box>
 
-      {/* Login Content */}
       <Box
         sx={{
           flex: 1,
@@ -151,7 +143,7 @@ router.push("/dashboard");
             p: { xs: 3, sm: 4 },
           }}
         >
-          {/* Heading */}
+
           <Box sx={{ textAlign: "center", mb: 3 }}>
             <Typography
               sx={{
@@ -174,7 +166,6 @@ router.push("/dashboard");
             </Typography>
           </Box>
 
-          {/* API Error */}
           {loginError && (
             <Alert
               severity="error"
@@ -189,7 +180,6 @@ router.push("/dashboard");
             </Alert>
           )}
 
-          {/* Email */}
           <Box sx={{ mb: 2 }}>
             <Typography
               sx={{
@@ -217,7 +207,6 @@ router.push("/dashboard");
             />
           </Box>
 
-          {/* Password */}
           <Box sx={{ mb: 1 }}>
             <Typography
               sx={{
@@ -269,7 +258,6 @@ router.push("/dashboard");
             />
           </Box>
 
-          {/* Remember Me */}
           <FormControlLabel
             control={
               <Checkbox
@@ -290,7 +278,6 @@ router.push("/dashboard");
             }}
           />
 
-          {/* Login Button */}
           <Button
             fullWidth
             type="submit"
@@ -312,7 +299,6 @@ router.push("/dashboard");
             )}
           </Button>
 
-          {/* Signup Link */}
           <Box sx={{ textAlign: "center", mt: 3 }}>
             <Typography
               component="span"
@@ -339,7 +325,6 @@ router.push("/dashboard");
         </Box>
       </Box>
 
-      {/* Footer */}
       <Box
         sx={{
           height: 24,

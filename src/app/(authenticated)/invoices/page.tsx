@@ -235,13 +235,7 @@ export default function InvoicesPage() {
       toDate: customTo,
     };
   };
-
-  /*
-   * Load invoice list + metrics + top items.
-   * Trend is loaded separately because it is independent
-   * from the selected date filter.
-   */
-  const fetchInvoiceData = async () => {
+const fetchInvoiceData = async () => {
     if (!token) return;
 
     if (
@@ -310,12 +304,7 @@ export default function InvoicesPage() {
       setIsLoading(false);
     }
   };
-
-  /*
-   * Last 12 Months is independent of the
-   * selected Today/Week/Month/Year/Custom filter.
-   */
-  const fetchTrend = async () => {
+const fetchTrend = async () => {
     if (!token) return;
 
     try {
@@ -385,12 +374,7 @@ export default function InvoicesPage() {
       timeZone: "UTC",
     });
   };
-
-  /*
-   * Search remains completely client-side.
-   * It does NOT affect metrics or top items.
-   */
-  const filteredInvoices = useMemo(() => {
+const filteredInvoices = useMemo(() => {
     const value =
       search.trim().toLowerCase();
 
@@ -525,12 +509,7 @@ export default function InvoicesPage() {
         token,
         invoiceID
       );
-
-      /*
-       * Remove deleted invoice immediately
-       * from the current list.
-       */
-      setInvoices(
+setInvoices(
         (current) =>
           current.filter(
             (invoice) =>
@@ -538,12 +517,7 @@ export default function InvoicesPage() {
               invoiceID
           )
       );
-
-      /*
-       * Refresh cards as well because
-       * invoice count/amount changed.
-       */
-      const {
+const {
         fromDate,
         toDate,
       } = getDateRange();
@@ -705,8 +679,6 @@ export default function InvoicesPage() {
       }}
     >
 
-   {/* ================= HEADER ================= */}
-
 <Box
   sx={{
     display: "flex",
@@ -761,7 +733,7 @@ export default function InvoicesPage() {
       },
     }}
   >
-    {/* Date Range Buttons */}
+
     <Stack
       direction="row"
       spacing={1}
@@ -809,7 +781,6 @@ export default function InvoicesPage() {
       </Button>
     </Stack>
 
-    {/* Back to Dashboard */}
     <Button
       variant="outlined"
       size="small"
@@ -825,8 +796,6 @@ export default function InvoicesPage() {
     </Button>
   </Box>
 </Box>
-
-      {/* ================= CUSTOM DATE ================= */}
 
       {range === "Custom" && (
         <Paper
@@ -889,8 +858,6 @@ export default function InvoicesPage() {
         </Paper>
       )}
 
-      {/* ================= DASHBOARD CARDS ================= */}
-
       <Box
         sx={{
           display: "grid",
@@ -903,7 +870,6 @@ export default function InvoicesPage() {
           mb: 3,
         }}
       >
-        {/* Invoice Count */}
 
         <Card sx={cardSx}>
           <CardContent>
@@ -953,8 +919,6 @@ export default function InvoicesPage() {
           </CardContent>
         </Card>
 
-        {/* Total Amount */}
-
         <Card sx={cardSx}>
           <CardContent>
             <Stack
@@ -999,8 +963,6 @@ export default function InvoicesPage() {
             </Stack>
           </CardContent>
         </Card>
-
-        {/* Last 12 Months */}
 
         <Card sx={cardSx}>
   <CardContent>
@@ -1063,8 +1025,6 @@ export default function InvoicesPage() {
     )}
   </CardContent>
 </Card>
-
-        {/* Top Items */}
 
 <Card sx={cardSx}>
   <CardContent>
@@ -1153,8 +1113,6 @@ export default function InvoicesPage() {
 </Card>
       </Box>
 
-      {/* ================= INVOICE GRID ================= */}
-
       <Paper
         elevation={0}
         sx={{
@@ -1162,7 +1120,6 @@ export default function InvoicesPage() {
           overflow: "hidden",
         }}
       >
-        {/* Action Bar */}
 
         <Box
           sx={{
@@ -1267,8 +1224,6 @@ export default function InvoicesPage() {
 
         <Divider />
 
-        {/* ================= COLUMN CHOOSER ================= */}
-
         <Menu
           anchorEl={
             columnAnchor
@@ -1347,8 +1302,6 @@ export default function InvoicesPage() {
             )
           )}
         </Menu>
-
-        {/* ================= DESKTOP TABLE ================= */}
 
         <TableContainer
           sx={{
@@ -1697,8 +1650,6 @@ export default function InvoicesPage() {
           </Table>
         </TableContainer>
 
-        {/* ================= MOBILE CARDS ================= */}
-
         <Box
           sx={{
             display: {
@@ -1889,8 +1840,6 @@ export default function InvoicesPage() {
             </Stack>
           )}
         </Box>
-
-        {/* ================= PAGINATION ================= */}
 
         <Divider />
 
