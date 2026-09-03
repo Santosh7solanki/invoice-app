@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import {
   Box,
@@ -7,18 +8,54 @@ import {
   Card,
   CardContent,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import {
   Inventory2Outlined,
   ReceiptLongOutlined,
   ArrowForward,
+  LogoutOutlined,
 } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
-
+import {
+  DescriptionOutlined
+} from "@mui/icons-material";
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, company, token } = useAuth();
- console.log("AUTH TOKEN:", token);
+
+  const {
+    user,
+    company,
+    logout,
+    token,
+  } = useAuth();
+
+  const [isLogoutOpen, setIsLogoutOpen] =
+    useState(false);
+
+  console.log("AUTH TOKEN:", token);
+
+  const capitalizeWords = (
+    value?: string | null
+  ) => {
+    if (!value) return "";
+
+    return value
+      .toLowerCase()
+      .replace(/\b\w/g, (char) =>
+        char.toUpperCase()
+      );
+  };
+
+  const handleLogout = () => {
+    setIsLogoutOpen(false);
+    logout();
+    router.push("/login");
+  };
+
   return (
     <Box
       sx={{
@@ -29,48 +66,96 @@ export default function DashboardPage() {
       {/* Header */}
       <Box
         sx={{
-          height: 56,
+          minHeight: 56,
           backgroundColor: "#fff",
           borderBottom: "1px solid #e5e5e5",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           px: { xs: 2, md: 4 },
+          py: 1,
+          gap: 2,
         }}
       >
-        <Typography
+        {/* Logo */}
+       <Typography
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 0.5,
+          fontSize: 14,
+          fontWeight: 600,
+          color: "#222",
+        }}
+      >
+        <DescriptionOutlined
           sx={{
             fontSize: 14,
-            fontWeight: 600,
-            color: "#222",
+            color: "#444",
           }}
-        >
-          ▪ InvoiceApp
-        </Typography>
+        />
+        InvoiceApp
+      </Typography>
 
+        {/* User Info + Logout */}
         <Box
           sx={{
-            textAlign: "right",
+            display: "flex",
+            alignItems: "center",
+            gap: 1.5,
           }}
         >
-          <Typography
+          <Box
             sx={{
-              fontSize: 11,
-              fontWeight: 600,
-              color: "#333",
+              textAlign: "right",
             }}
           >
-            {user?.firstName} {user?.lastName}
-          </Typography>
+            <Typography
+              sx={{
+                fontSize: 11,
+                fontWeight: 600,
+                color: "#333",
+              }}
+            >
+              {capitalizeWords(user?.firstName)}{" "}
+              {capitalizeWords(user?.lastName)}
+            </Typography>
 
-          <Typography
+            <Typography
+              sx={{
+                fontSize: 9,
+                color: "#777",
+              }}
+            >
+              {capitalizeWords(
+                company?.companyName
+              )}
+            </Typography>
+          </Box>
+
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={
+              <LogoutOutlined
+                sx={{ fontSize: 15 }}
+              />
+            }
+            onClick={() =>
+              setIsLogoutOpen(true)
+            }
             sx={{
-              fontSize: 9,
-              color: "#777",
+              height: 30,
+              minWidth: 78,
+              px: 1.2,
+              fontSize: 10,
+              textTransform: "none",
+              borderColor: "#d0d0d0",
+              color: "#555",
             }}
           >
-            {company?.companyName}
-          </Typography>
+            Logout
+          </Button>
         </Box>
       </Box>
 
@@ -87,13 +172,17 @@ export default function DashboardPage() {
         <Box sx={{ mb: 4 }}>
           <Typography
             sx={{
-              fontSize: { xs: 22, md: 26 },
+              fontSize: {
+                xs: 22,
+                md: 26,
+              },
               fontWeight: 600,
               color: "#222",
               mb: 0.5,
             }}
           >
-            Welcome back, {user?.firstName}
+            Welcome back,{" "}
+            {capitalizeWords(user?.firstName)}
           </Typography>
 
           <Typography
@@ -102,7 +191,8 @@ export default function DashboardPage() {
               color: "#777",
             }}
           >
-            Manage your items and invoices from one place.
+            Manage your items and invoices from
+            one place.
           </Typography>
         </Box>
 
@@ -132,55 +222,53 @@ export default function DashboardPage() {
           <Card
             sx={{
               border: "1px solid #e2e2e2",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+              boxShadow:
+                "0 2px 8px rgba(0,0,0,0.04)",
               borderRadius: 2,
             }}
           >
             <CardContent sx={{ p: 2.5 }}>
-              <Box
+              <Inventory2Outlined
                 sx={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "space-between",
+                  fontSize: 26,
+                  color: "#555",
+                  mb: 1,
+                }}
+              />
+
+              <Typography
+                sx={{
+                  fontSize: 16,
+                  fontWeight: 600,
+                  color: "#222",
                 }}
               >
-                <Box>
-                  <Inventory2Outlined
-                    sx={{
-                      fontSize: 26,
-                      color: "#555",
-                      mb: 1,
-                    }}
-                  />
+                Items
+              </Typography>
 
-                  <Typography
-                    sx={{
-                      fontSize: 16,
-                      fontWeight: 600,
-                      color: "#222",
-                    }}
-                  >
-                    Items
-                  </Typography>
-
-                  <Typography
-                    sx={{
-                      fontSize: 11,
-                      color: "#777",
-                      mt: 0.5,
-                      maxWidth: 320,
-                    }}
-                  >
-                    Manage your products and services, pricing,
-                    discounts and pictures.
-                  </Typography>
-                </Box>
-              </Box>
+              <Typography
+                sx={{
+                  fontSize: 11,
+                  color: "#777",
+                  mt: 0.5,
+                  maxWidth: 320,
+                }}
+              >
+                Manage your products and
+                services, pricing, discounts and
+                pictures.
+              </Typography>
 
               <Button
                 variant="outlined"
-                endIcon={<ArrowForward sx={{ fontSize: 15 }} />}
-                onClick={() => router.push("/items")}
+                endIcon={
+                  <ArrowForward
+                    sx={{ fontSize: 15 }}
+                  />
+                }
+                onClick={() =>
+                  router.push("/items")
+                }
                 sx={{
                   mt: 2,
                   height: 32,
@@ -197,55 +285,52 @@ export default function DashboardPage() {
           <Card
             sx={{
               border: "1px solid #e2e2e2",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+              boxShadow:
+                "0 2px 8px rgba(0,0,0,0.04)",
               borderRadius: 2,
             }}
           >
             <CardContent sx={{ p: 2.5 }}>
-              <Box
+              <ReceiptLongOutlined
                 sx={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "space-between",
+                  fontSize: 26,
+                  color: "#555",
+                  mb: 1,
+                }}
+              />
+
+              <Typography
+                sx={{
+                  fontSize: 16,
+                  fontWeight: 600,
+                  color: "#222",
                 }}
               >
-                <Box>
-                  <ReceiptLongOutlined
-                    sx={{
-                      fontSize: 26,
-                      color: "#555",
-                      mb: 1,
-                    }}
-                  />
+                Invoices
+              </Typography>
 
-                  <Typography
-                    sx={{
-                      fontSize: 16,
-                      fontWeight: 600,
-                      color: "#222",
-                    }}
-                  >
-                    Invoices
-                  </Typography>
-
-                  <Typography
-                    sx={{
-                      fontSize: 11,
-                      color: "#777",
-                      mt: 0.5,
-                      maxWidth: 320,
-                    }}
-                  >
-                    Create, manage, search and print your
-                    company invoices.
-                  </Typography>
-                </Box>
-              </Box>
+              <Typography
+                sx={{
+                  fontSize: 11,
+                  color: "#777",
+                  mt: 0.5,
+                  maxWidth: 320,
+                }}
+              >
+                Create, manage, search and print
+                your company invoices.
+              </Typography>
 
               <Button
                 variant="outlined"
-                endIcon={<ArrowForward sx={{ fontSize: 15 }} />}
-                onClick={() => router.push("/invoices")}
+                endIcon={
+                  <ArrowForward
+                    sx={{ fontSize: 15 }}
+                  />
+                }
+                onClick={() =>
+                  router.push("/invoices")
+                }
                 sx={{
                   mt: 2,
                   height: 32,
@@ -259,7 +344,7 @@ export default function DashboardPage() {
           </Card>
         </Box>
 
-        {/* Company Info */}
+        {/* Company Information */}
         <Card
           sx={{
             mt: 3,
@@ -291,6 +376,7 @@ export default function DashboardPage() {
                 gap: 2,
               }}
             >
+              {/* Company */}
               <Box>
                 <Typography
                   sx={{
@@ -308,10 +394,13 @@ export default function DashboardPage() {
                     mt: 0.3,
                   }}
                 >
-                  {company?.companyName || "-"}
+                  {capitalizeWords(
+                    company?.companyName
+                  ) || "-"}
                 </Typography>
               </Box>
 
+              {/* Currency */}
               <Box>
                 <Typography
                   sx={{
@@ -329,10 +418,12 @@ export default function DashboardPage() {
                     mt: 0.3,
                   }}
                 >
-                  {company?.currencySymbol || "-"}
+                  {company?.currencySymbol ||
+                    "-"}
                 </Typography>
               </Box>
 
+              {/* User */}
               <Box>
                 <Typography
                   sx={{
@@ -357,6 +448,67 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </Box>
+
+      {/* Logout Confirmation Dialog */}
+      <Dialog
+        open={isLogoutOpen}
+        onClose={() =>
+          setIsLogoutOpen(false)
+        }
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle
+          sx={{
+            fontSize: 18,
+            fontWeight: 600,
+          }}
+        >
+          Logout
+        </DialogTitle>
+
+        <DialogContent>
+          <Typography
+            sx={{
+              fontSize: 14,
+              color: "#555",
+            }}
+          >
+            Are you sure you want to logout?
+          </Typography>
+        </DialogContent>
+
+        <DialogActions
+          sx={{
+            px: 3,
+            pb: 2,
+            gap: 1,
+          }}
+        >
+          <Button
+            variant="outlined"
+            onClick={() =>
+              setIsLogoutOpen(false)
+            }
+            sx={{
+              textTransform: "none",
+            }}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleLogout}
+            sx={{
+              textTransform: "none",
+            }}
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

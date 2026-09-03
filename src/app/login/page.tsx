@@ -15,7 +15,9 @@ import {
   Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-
+import {
+  DescriptionOutlined
+} from "@mui/icons-material";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 export default function LoginPage() {
@@ -106,15 +108,24 @@ router.push("/dashboard");
           justifyContent: "center",
         }}
       >
-        <Typography
-          sx={{
-            fontSize: 10,
-            fontWeight: 600,
-            color: "#222",
-          }}
-        >
-          ▪ InvoiceApp
-        </Typography>
+   <Typography
+  sx={{
+    display: "flex",
+    alignItems: "center",
+    gap: 0.5,
+    fontSize: 10,
+    fontWeight: 600,
+    color: "#222",
+  }}
+>
+  <DescriptionOutlined
+    sx={{
+      fontSize: 14,
+      color: "#444",
+    }}
+  />
+  InvoiceApp
+</Typography>
       </Box>
 
       {/* Login Content */}

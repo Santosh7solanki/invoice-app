@@ -20,7 +20,9 @@ import {
 } from "@mui/icons-material";
 
 import { useAuth } from "@/context/AuthContext";
-
+import {
+  DescriptionOutlined
+} from "@mui/icons-material";
 interface SignupForm {
   firstName: string;
   lastName: string;
@@ -247,15 +249,24 @@ router.push("/dashboard");
           justifyContent: "center",
         }}
       >
-        <Typography
-          sx={{
-            fontSize: 10,
-            fontWeight: 600,
-            color: "#222",
-          }}
-        >
-          ▪ InvoiceApp
-        </Typography>
+       <Typography
+  sx={{
+    display: "flex",
+    alignItems: "center",
+    gap: 0.5,
+    fontSize: 10,
+    fontWeight: 600,
+    color: "#222",
+  }}
+>
+  <DescriptionOutlined
+    sx={{
+      fontSize: 14,
+      color: "#444",
+    }}
+  />
+  InvoiceApp
+</Typography>
       </Box>
 
       {/* Content */}

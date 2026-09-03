@@ -55,7 +55,6 @@ import { useAuth } from "@/context/AuthContext";
 import invoiceService, {
   type Invoice as ApiInvoice,
 } from "@/api/invoice.service";
-
 type RangeType =
   | "Today"
   | "Week"
@@ -705,98 +704,127 @@ export default function InvoicesPage() {
         },
       }}
     >
-      {/* ================= HEADER ================= */}
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent:
-            "space-between",
-          alignItems: {
-            xs: "flex-start",
-            md: "center",
-          },
-          flexDirection: {
-            xs: "column",
-            md: "row",
-          },
-          gap: 2,
-          mb: 3,
-        }}
-      >
-        <Box>
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: 700,
-              color: "#111827",
-            }}
-          >
-            Invoices
-          </Typography>
+   {/* ================= HEADER ================= */}
 
-          <Typography
-            color="text.secondary"
-            sx={{ mt: 0.5 }}
-          >
-            View, search and manage
-            your invoices
-          </Typography>
-        </Box>
+<Box
+  sx={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: {
+      xs: "flex-start",
+      md: "center",
+    },
+    flexDirection: {
+      xs: "column",
+      md: "row",
+    },
+    gap: 2,
+    mb: 3,
+  }}
+>
+  <Box>
+    <Typography
+      variant="h5"
+      sx={{
+        fontWeight: 700,
+        color: "#111827",
+      }}
+    >
+      Invoices
+    </Typography>
 
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{
-            flexWrap: "wrap",
-          }}
+    <Typography
+      color="text.secondary"
+      sx={{ mt: 0.5 }}
+    >
+      View, search and manage
+      your invoices
+    </Typography>
+  </Box>
+
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: {
+        xs: "flex-start",
+        md: "center",
+      },
+      flexDirection: {
+        xs: "column",
+        md: "row",
+      },
+      gap: 1,
+      width: {
+        xs: "100%",
+        md: "auto",
+      },
+    }}
+  >
+    {/* Date Range Buttons */}
+    <Stack
+      direction="row"
+      spacing={1}
+      sx={{
+        flexWrap: "wrap",
+      }}
+    >
+      {(
+        [
+          "Today",
+          "Week",
+          "Month",
+          "Year",
+        ] as RangeType[]
+      ).map((item) => (
+        <Button
+          key={item}
+          variant={
+            range === item
+              ? "contained"
+              : "outlined"
+          }
+          size="small"
+          onClick={() =>
+            handleRangeChange(item)
+          }
         >
-          {(
-            [
-              "Today",
-              "Week",
-              "Month",
-              "Year",
-            ] as RangeType[]
-          ).map((item) => (
-            <Button
-              key={item}
-              variant={
-                range === item
-                  ? "contained"
-                  : "outlined"
-              }
-              size="small"
-              onClick={() =>
-                handleRangeChange(
-                  item
-                )
-              }
-            >
-              {item}
-            </Button>
-          ))}
+          {item}
+        </Button>
+      ))}
 
-          <Button
-            variant={
-              range === "Custom"
-                ? "contained"
-                : "outlined"
-            }
-            size="small"
-            startIcon={
-              <CalendarMonthIcon />
-            }
-            onClick={() =>
-              handleRangeChange(
-                "Custom"
-              )
-            }
-          >
-            Custom
-          </Button>
-        </Stack>
-      </Box>
+      <Button
+        variant={
+          range === "Custom"
+            ? "contained"
+            : "outlined"
+        }
+        size="small"
+        startIcon={<CalendarMonthIcon />}
+        onClick={() =>
+          handleRangeChange("Custom")
+        }
+      >
+        Custom
+      </Button>
+    </Stack>
+
+    {/* Back to Dashboard */}
+    <Button
+      variant="outlined"
+      size="small"
+      onClick={() => router.push("/dashboard")}
+      sx={{
+        minWidth: 145,
+        height: 32,
+        textTransform: "none",
+        whiteSpace: "nowrap",
+      }}
+    >
+      Back to Dashboard
+    </Button>
+  </Box>
+</Box>
 
       {/* ================= CUSTOM DATE ================= */}
 

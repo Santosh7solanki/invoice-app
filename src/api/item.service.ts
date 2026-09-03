@@ -131,6 +131,81 @@ const deleteItem = async (data: ItemRequest) => {
   return true;
 };
 
+
+const uploadItemImage = async (
+  itemID: number,
+  file: File
+) => {
+  const token = getSecureItem<string>(TOKEN_KEY);
+
+  const formData = new FormData();
+
+  formData.append("ItemID", String(itemID));
+  formData.append("File", file);
+
+  const response = await fetch(routes.ITEM.UPDATE_PICTURE, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const result = await response.text();
+
+    throw new Error(
+      result || "Failed to upload item image."
+    );
+  }
+
+  return true;
+};
+
+const getItemImageUrl = async (
+  itemID: number
+): Promise<string> => {
+  const token = getSecureItem<string>(TOKEN_KEY);
+
+  const response = await fetch(
+    routes.ITEM.PICTURE(itemID),
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to get item image.");
+  }
+
+  return response.text();
+};
+
+const getItemThumbnailUrl = async (
+  itemID: number
+): Promise<string> => {
+  const token = getSecureItem<string>(TOKEN_KEY);
+
+  const response = await fetch(
+    routes.ITEM.PICTURE_THUMBNAIL(itemID),
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to get item thumbnail.");
+  }
+
+  return response.text();
+};
+
 // Create Item
 const addItem = async (
   data: ItemRequest
@@ -158,7 +233,10 @@ const itemService = {
   getItems,
   updateItem,
   deleteItem,
-  addItem
+  addItem,
+  uploadItemImage,
+  getItemImageUrl,
+  getItemThumbnailUrl,
 };
 
 export default itemService;

@@ -26,12 +26,14 @@ import {
   DialogContent,
   DialogTitle
 } from "@mui/material";
-
+import { useRouter } from "next/navigation";
 import {
   Add,
+  ArrowBack,
   DeleteOutlined,
   EditOutlined,
   FileDownloadOutlined,
+  ImageOutlined,
   ViewColumnOutlined,
 } from "@mui/icons-material";
 
@@ -58,7 +60,9 @@ const initialColumns = {
 export default function ItemsPage() {
 const [items, setItems] = useState<Item[]>([]);
 const [isLoading, setIsLoading] = useState(true);
-
+const [imageUrls, setImageUrls] = useState<
+  Record<number, string>
+>({});
 const [isAddItemOpen, setIsAddItemOpen] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -82,15 +86,36 @@ const [deleteItemData, setDeleteItemData] =
 const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
 const [isDeleting, setIsDeleting] = useState(false);
-
+const router = useRouter();
 
 const fetchItems = async () => {
   try {
     setIsLoading(true);
 
     const data = await itemService.getItems();
-console.log("dddddddddddddddddd", data);
+
     setItems(data);
+
+    const imageMap: Record<number, string> = {};
+
+    await Promise.all(
+      data.map(async (item) => {
+        try {
+          const thumbnail =
+            await itemService.getItemThumbnailUrl(
+              item.itemID
+            );
+
+          if (thumbnail) {
+            imageMap[item.itemID] = thumbnail;
+          }
+        } catch {
+          // No image available
+        }
+      })
+    );
+
+    setImageUrls(imageMap);
   } catch (error) {
     console.error("Failed to fetch items:", error);
   } finally {
@@ -164,6 +189,22 @@ useEffect(() => {
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
+
+useEffect(() => {
+  const totalPages = Math.ceil(
+    filteredItems.length / rowsPerPage
+  );
+
+  if (totalPages === 0) {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPage(0);
+    return;
+  }
+
+  if (page >= totalPages) {
+    setPage(totalPages - 1);
+  }
+}, [filteredItems.length, page, rowsPerPage]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -246,59 +287,84 @@ useEffect(() => {
     },
   }}
 >
-      {/* Header */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: {
-            xs: "flex-start",
-            sm: "center",
-          },
-          justifyContent: "space-between",
-          gap: 2,
-          mb: 3,
-          flexDirection: {
-            xs: "column",
-            sm: "row",
-          },
-        }}
-      >
-        <Box>
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: 600,
-              color: "text.primary",
-              mb: 0.5,
-            }}
-          >
-            Items
-          </Typography>
+     
+    {/* Header */}
+<Box
+  sx={{
+    display: "flex",
+    alignItems: {
+      xs: "flex-start",
+      sm: "center",
+    },
+    justifyContent: "space-between",
+    gap: 2,
+    mb: 3,
+    flexDirection: {
+      xs: "column",
+      sm: "row",
+    },
+  }}
+>
+  {/* Page Title */}
+  <Box>
+    <Typography
+      variant="h5"
+      sx={{
+        fontWeight: 600,
+        color: "text.primary",
+        mb: 0.5,
+      }}
+    >
+      Items
+    </Typography>
 
-          <Typography
-            variant="body2"
-            color="text.secondary"
-          >
-            Manage your product and service catalog.
-          </Typography>
-        </Box>
+    <Typography
+      variant="body2"
+      color="text.secondary"
+    >
+      Manage your product and service catalog.
+    </Typography>
+  </Box>
 
-        <Button
-          variant="contained"
-          startIcon={<Add />}
-    onClick={() => {
-  setSelectedItem(null);
-  setIsAddItemOpen(true);
-}}
-          sx={{
-            minWidth: 145,
-            height: 40,
-            textTransform: "none",
-          }}
-        >
-          Add New Item
-        </Button>
-      </Box>
+  {/* Header Actions */}
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      gap: 1,
+      flexWrap: "wrap",
+    }}
+  >
+    {/* Back to Dashboard */}
+    <Button
+      variant="outlined"
+      onClick={() => router.push("/dashboard")}
+      sx={{
+        height: 40,
+        textTransform: "none",
+      }}
+    >
+      Back to Dashboard
+    </Button>
+
+    {/* Add New Item */}
+    <Button
+      variant="contained"
+      startIcon={<Add />}
+      onClick={() => {
+        setSelectedItem(null);
+        setIsAddItemOpen(true);
+      }}
+      sx={{
+        minWidth: 145,
+        height: 40,
+        textTransform: "none",
+      }}
+    >
+      Add New Item
+    </Button>
+  </Box>
+</Box>
 
       {/* Action Bar */}
       <Paper
@@ -544,21 +610,38 @@ useEffect(() => {
                   >
                     {columns.picture && (
                       <TableCell>
-                        <Box
-                          sx={{
-                            width: 50,
-                            height: 50,
-                            borderRadius: 1,
-                            backgroundColor:
-                              "action.hover",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: 20,
-                          }}
-                        >
-                          📦
-                        </Box>
+                      <Box
+  sx={{
+    width: 40,
+    height: 40,
+    borderRadius: "4px",
+    backgroundColor: "#f3f4f6",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  }}
+>
+  {imageUrls[item.itemID] ? (
+    <Box
+      component="img"
+      src={imageUrls[item.itemID]}
+      alt={item.itemName}
+      sx={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+      }}
+    />
+  ) : (
+    <ImageOutlined
+      sx={{
+        fontSize: 18,
+        color: "#999",
+      }}
+    />
+  )}
+</Box>
                       </TableCell>
                     )}
 
@@ -701,20 +784,38 @@ useEffect(() => {
                   }}
                 >
                   <Box
-                    sx={{
-                      width: 50,
-                      height: 50,
-                      flexShrink: 0,
-                      borderRadius: 1,
-                      backgroundColor: "action.hover",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 20,
-                    }}
-                  >
-                    📦
-                  </Box>
+  sx={{
+    width: 50,
+    height: 50,
+    flexShrink: 0,
+    borderRadius: "4px",
+    backgroundColor: "#f3f4f6",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  }}
+>
+  {imageUrls[item.itemID] ? (
+    <Box
+      component="img"
+      src={imageUrls[item.itemID]}
+      alt={item.itemName}
+      sx={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+      }}
+    />
+  ) : (
+    <ImageOutlined
+      sx={{
+        fontSize: 20,
+        color: "#999",
+      }}
+    />
+  )}
+</Box>
 
                   <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Typography
@@ -767,18 +868,26 @@ useEffect(() => {
                       alignItems: "center",
                     }}
                   >
-                    <IconButton
-                      size="small"
-                      aria-label={`Edit ${item.itemName}`}
-                    >
+                 <IconButton
+  size="small"
+  aria-label={`Edit ${item.itemName}`}
+  onClick={() => {
+    setSelectedItem(item);
+    setIsAddItemOpen(true);
+  }}
+>
                       <EditOutlined fontSize="small" />
                     </IconButton>
 
-                    <IconButton
-                      size="small"
-                      color="error"
-                      aria-label={`Delete ${item.itemName}`}
-                    >
+                   <IconButton
+  size="small"
+  color="error"
+  aria-label={`Delete ${item.itemName}`}
+  onClick={() => {
+    setDeleteItemData(item);
+    setIsDeleteOpen(true);
+  }}
+>
                       <DeleteOutlined fontSize="small" />
                     </IconButton>
                   </Box>
